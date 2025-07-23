@@ -15,6 +15,7 @@ package-lock.json.lck
 # === Coverage ===
 coverage/
 *.lcov
+*.coverage/
 
 # === Build Output ===
 build/
@@ -30,6 +31,9 @@ temp/
 *.njsproj
 *.sln
 *.code-workspace
+
+# === ESLint cache ===
+.eslintcache
 
 # === System Files ===
 .DS_Store
@@ -51,3 +55,4 @@ Desktop.ini
 *.tmp
 *.swp
 *.bak
+.turbo/
