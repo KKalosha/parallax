@@ -1,0 +1,53 @@
+# === Node ===
+node_modules/
+dist/
+.vite/
+
+# === Vite ===
+*.local
+.env
+.env.*.local
+
+# === Logs ===
+npm-debug.log*
+package-lock.json.lck
+
+# === Coverage ===
+coverage/
+*.lcov
+
+# === Build Output ===
+build/
+out/
+temp/
+*.tsbuildinfo
+
+# === Editors ===
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.code-workspace
+
+# === System Files ===
+.DS_Store
+Thumbs.db
+
+# === Testing / Cypress / Playwright ===
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# === OS Artifacts ===
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# === Misc ===
+*.log
+*.tmp
+*.swp
+*.bak

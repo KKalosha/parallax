@@ -1,2 +1,24 @@
-# Auto detect text files and perform LF normalization
+# Normalize line endings
 * text=auto
+
+# Treat these as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary
+
+# Ensure consistent line endings for source code
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+
+# GitHub language detection
+/src/* linguist-detectable=true
