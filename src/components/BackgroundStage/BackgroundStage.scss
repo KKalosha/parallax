@@ -1,0 +1,45 @@
+.bgstage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgstage__layer {
+  position: absolute;
+  inset: -25%;
+filter: saturate(var(--layer-saturate, 1.05));
+  will-change: transform, background;
+}
+
+.bgstage__layer--mid {
+   mix-blend-mode: var(--bg-blend-mid, screen);
+}
+
+.bgstage__blob {
+  position: absolute;
+  width: 56vmin;
+  height: 56vmin;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+}
+
+.bgstage__grain {
+  position: absolute;
+  inset: -35%;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: var(--grain-opacity, .18);
+  background-image:
+    radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    radial-gradient(rgba(0,0,0,.05) 1px, transparent 1px);
+  background-size: 3px 3px, 4px 4px;
+  background-position: 0 0, 1px 1px;
+}
+
+@media (max-width: 768px) {
+  .bgstage__layer { inset: -30%; }
+  .bgstage__grain { inset: -45%; }
+}

@@ -1,0 +1,64 @@
+:root {
+  --body-bg: radial-gradient(circle at 50% 25%, #ffffff 0%, #f3f8ff 100%);
+  --bg-blend-mid: overlay;
+  --blob-opacity: 0.5;
+  --grain-opacity: 0.1;
+  --layer-saturate: 1.2;
+  --fade-color: rgba(255 255 255 / 0);
+
+  --bg-alpha-boost: 0.55;
+  --vignette-alpha: 0;
+
+  --scene-1-bg1: #fafcff;
+  --scene-1-bg2: #eef6ff;
+  --scene-1-accent1: #3b82f6;
+  --scene-1-accent2: #22d3ee;
+
+  --scene-2-bg1: #f7f9ff;
+  --scene-2-bg2: #f1f5ff;
+  --scene-2-accent1: #809eff;
+  --scene-2-accent2: #4adeff;
+
+  --scene-3-bg1: #fff8f9;
+  --scene-3-bg2: #fff3f6;
+  --scene-3-accent1: #ff6b8a;
+  --scene-3-accent2: #ffdca8;
+
+  --scene-4-bg1: #f6fbff;
+  --scene-4-bg2: #edf9f5;
+  --scene-4-accent1: #a38bff;
+  --scene-4-accent2: #5ae6b7;
+}
+
+[data-theme="dark"] {
+  --bg-blend-mid: screen;
+  --blob-opacity: 0.45;
+  --grain-opacity: 0.16;
+  --layer-saturate: 1.2;
+  --fade-color: rgba(0 0 0 / 0);
+
+  --bg-alpha-boost: 0.85;
+  --vignette-alpha: 0.28;
+
+  --body-bg: radial-gradient(circle at 60% 0%, #0f1218 0%, #090b0f 70%);
+
+  --scene-1-bg1: #0a0c10;
+  --scene-1-bg2: #10131a;
+  --scene-1-accent1: #6ea6ff;
+  --scene-1-accent2: #29c7df;
+
+  --scene-2-bg1: #0a1124;
+  --scene-2-bg2: #0b0e14;
+  --scene-2-accent1: #7aa2ff;
+  --scene-2-accent2: #22d3ee;
+
+  --scene-3-bg1: #0f0a12;
+  --scene-3-bg2: #170e21;
+  --scene-3-accent1: #ff618b;
+  --scene-3-accent2: #ffd166;
+
+  --scene-4-bg1: #0a0c0f;
+  --scene-4-bg2: #12151b;
+  --scene-4-accent1: #9b84ff;
+  --scene-4-accent2: #22c55e;
+}
