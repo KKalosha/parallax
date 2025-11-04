@@ -1,41 +1,9 @@
 .hero {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  padding-left: clamp(32px, 10vw, 160px);
   position: relative;
   z-index: 1;
-}
-
-.hero__title {
-  font-size: clamp(48px, 9vw, 120px);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin: 0;
-
-  /* градиент через переменные сцены — поддержка тем */
-  background: linear-gradient(
-    100deg,
-    var(--scene-1-accent1),
-    var(--scene-1-accent2)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  text-shadow: 0 2px 18px rgba(0 0 0 / 0.18);
-}
-
-/* адаптив */
-@media (max-width: 768px) {
-  .hero {
-    justify-content: center;
-    padding-left: 0;
-  }
-  .hero__title {
-    font-size: clamp(32px, 12vw, 72px);
-    text-align: center;
-  }
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: paint;
+  will-change: transform, opacity;
+  text-align: center;
 }

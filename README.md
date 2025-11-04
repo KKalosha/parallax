@@ -23,7 +23,6 @@ The goal is to highlight strong proficiency in **React**, **TypeScript**, and **
 - **Animated color blobs** reacting to scroll position
 - **Scene transitions** based on scroll progress interpolation
 - **Theme system** powered by CSS variables (light / dark)
-- **Hero section** with left-side motion reveal animation
 - **Clean modular architecture** with isolated logic and styles
 
 ---
