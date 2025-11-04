@@ -41,6 +41,7 @@ h1 {
   text-rendering: optimizeLegibility;
   font-size-adjust: 0.52;
   font-size: 64px;
+  user-select: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -71,15 +72,15 @@ body {
     padding: 0 16px;
   }
   h1 {
-  font-size: 50px;
-}
+    font-size: 50px;
+  }
 }
 
 @media (max-width: 767px) {
   .section {
     padding: 40px 0;
   }
-    h1 {
-  font-size: 38px;
-}
+  h1 {
+    font-size: 38px;
+  }
 }

@@ -1,0 +1,22 @@
+.gt-container {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .5ch;
+  font: inherit;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.gt-word {
+  display: inline-block;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.gt-container[data-done="true"] {
+  opacity: 0;               
+  pointer-events: none;       
+}
