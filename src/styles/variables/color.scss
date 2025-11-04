@@ -28,6 +28,12 @@
   --scene-4-bg2: #edf9f5;
   --scene-4-accent1: #a38bff;
   --scene-4-accent2: #5ae6b7;
+
+
+
+  --text-color: rgba(0, 0, 0, 0.75);
+  --text-color-secondary: rgba(0, 0, 0, 0.75);
+  --text-color-muted: rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="dark"] {
@@ -61,6 +67,10 @@
   --scene-4-bg2: #12151b;
   --scene-4-accent1: #7c68e8; 
   --scene-4-accent2: #3dbd7a; 
+
+   --text-color: rgba(255, 255, 255, 0.9);
+    --text-color-secondary: rgba(255, 255, 255, 0.7);
+    --text-color-muted: rgba(255, 255, 255, 0.5);
 }
 
 
