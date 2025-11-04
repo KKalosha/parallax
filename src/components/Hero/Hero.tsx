@@ -15,7 +15,7 @@ export default function Hero() {
         <GravityText
           text="Made with motion — and a bit of love"
           maxWords={8}
-          threshold={70}
+          threshold={30}
           once
         />
       </p>

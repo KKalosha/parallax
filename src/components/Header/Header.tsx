@@ -1,10 +1,11 @@
 import ThemeToggle from '@/components/ThemeToggle/ThemeToggle'
+import '@/components/Header/Header.scss'
 
 
 export default function Header() {
 
    return (
-    <header style={{position:'fixed', top:'0', left:'0', background:'transparent', zIndex:'10'}}>
+    <header className='header'>
       <ThemeToggle/>
     </header>
    )
