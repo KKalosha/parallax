@@ -3,22 +3,27 @@ import "@/styles/index.scss";
 import BackgroundStage from "@/components/BackgroundStage/BackgroundStage";
 import Panel from "@/components/Panel/Panel";
 
+import Hero from "@/components/Hero/Hero";
+
+
 export default function App() {
   return (
     <>
       <BackgroundStage />
       <Header />
-      <Panel id="hero" scene={1}>
-        <h1>Hello 1</h1>
+
+      <Panel id="intro" scene={1}>
+        <Hero />
       </Panel>
-      <Panel id="hero" scene={2}>
-        <h1>Hello 2</h1>
+      <Panel id="projects" scene={2}>
+          <Hero />
       </Panel>
-      <Panel id="hero" scene={3}>
-        <h1>Hello 3</h1>
+      <Panel id="projects" scene={3}>
+          <Hero />
       </Panel>
-      <Panel id="hero" scene={4}>
-        <h1>Hello 4</h1>
+
+      <Panel id="contact" scene={4}>
+        <Hero />
       </Panel>
     </>
   );
