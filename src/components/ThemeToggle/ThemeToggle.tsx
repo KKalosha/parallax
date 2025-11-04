@@ -1,19 +1,24 @@
-import { useTheme } from '@/context/ThemeContext'
+import { useTheme } from "@/context/ThemeContext";
 
-import './ThemeToggle.scss'
+import "./ThemeToggle.scss";
 
 const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-      {theme === 'light' ? (
-        <span className="icon">🌙</span>
+    <button
+      className="theme-toggle"
+      data-theme={theme}
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
+    >
+      {theme === "light" ? (
+        <img src="/icons/moon.svg" alt="Moon" />
       ) : (
-        <span className="icon">☀️</span>
+        <img src="/icons/sun.svg" alt="Sun" />
       )}
     </button>
-  )
-}
+  );
+};
 
-export default ThemeToggle
+export default ThemeToggle;
