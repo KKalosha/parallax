@@ -9,7 +9,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import "./BackgroundStage.scss";
+import "@/components/BackgroundStage/BackgroundStage.scss";
 
 
 const TAU = Math.PI * 2;

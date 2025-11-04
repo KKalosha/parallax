@@ -98,3 +98,21 @@
     filter: blur(28px);
   }
 }
+
+
+/* Safari-only tuning */
+@supports (-webkit-hyphens: none) and (not (overflow: clip)) {
+  .bgstage__layer--mid { 
+
+    mix-blend-mode: overlay;
+  }
+  .bgstage__blob {
+    filter: blur(32px);  
+    opacity: var(--blob-opacity, .5);
+  }
+  .bgstage__grain {
+    mix-blend-mode: soft-light;
+    opacity: var(--grain-opacity, .1);
+    transform: translateZ(0);
+  }
+}

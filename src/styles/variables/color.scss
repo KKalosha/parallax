@@ -62,3 +62,53 @@
   --scene-4-accent1: #7c68e8; 
   --scene-4-accent2: #3dbd7a; 
 }
+
+
+@media (color-gamut: p3) {
+  @supports (color: color(display-p3 1 1 1)) {
+
+    :root {
+      --scene-1-bg1: color(display-p3 0.980392 0.988235 1.000000);
+      --scene-1-bg2: color(display-p3 0.933333 0.964706 1.000000);
+      --scene-1-accent1: color(display-p3 0.202039 0.502745 0.994039);
+      --scene-1-accent2: color(display-p3 0.101333 0.850980 0.965333);
+
+      --scene-2-bg1: color(display-p3 0.968627 0.976471 1.000000);
+      --scene-2-bg2: color(display-p3 0.945098 0.960784 1.000000);
+      --scene-2-accent1: color(display-p3 0.501961 0.619608 1.000000);
+      --scene-2-accent2: color(display-p3 0.290196 0.870588 1.000000);
+
+      --scene-3-bg1: color(display-p3 1.000000 0.972549 0.976471);
+      --scene-3-bg2: color(display-p3 1.000000 0.952941 0.964706);
+      --scene-3-accent1: color(display-p3 1.000000 0.419608 0.541176);
+      --scene-3-accent2: color(display-p3 1.000000 0.862745 0.658824);
+
+      --scene-4-bg1: color(display-p3 0.964706 0.984314 1.000000);
+      --scene-4-bg2: color(display-p3 0.927529 0.978353 0.961412);
+      --scene-4-accent1: color(display-p3 0.639216 0.545098 1.000000);
+      --scene-4-accent2: color(display-p3 0.330980 0.923922 0.724863);
+    }
+
+    [data-theme="dark"] {
+      --scene-1-bg1: color(display-p3 0.038275 0.046745 0.063686);
+      --scene-1-bg2: color(display-p3 0.065255 0.077961 0.103373);
+      --scene-1-accent1: color(display-p3 0.289255 0.488314 0.844078);
+      --scene-1-accent2: color(display-p3 0.088627 0.677333 0.766275);
+
+      --scene-2-bg1: color(display-p3 0.036078 0.061490 0.120784);
+      --scene-2-bg2: color(display-p3 0.045490 0.058196 0.087843);
+      --scene-2-accent1: color(display-p3 0.349176 0.518588 0.874353);
+      --scene-2-accent2: color(display-p3 0.082196 0.725961 0.827608);
+
+      --scene-3-bg1: color(display-p3 0.067608 0.037961 0.071843);
+      --scene-3-bg2: color(display-p3 0.098667 0.052078 0.128314);
+      --scene-3-accent1: color(display-p3 1.000000 0.568627 0.670588);
+      --scene-3-accent2: color(display-p3 1.000000 0.803922 0.450980);
+
+      --scene-4-bg1: color(display-p3 0.038431 0.046902 0.059608);
+      --scene-4-bg2: color(display-p3 0.069176 0.081882 0.107294);
+      --scene-4-accent1: color(display-p3 0.472471 0.387765 0.929882);
+      --scene-4-accent2: color(display-p3 0.219137 0.761255 0.477490);
+    }
+  }
+}

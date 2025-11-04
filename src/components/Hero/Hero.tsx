@@ -1,5 +1,4 @@
-
-import "./Hero.scss";
+import "@/components/Hero/Hero.scss";
 
 export default function Hero() {
   return (
