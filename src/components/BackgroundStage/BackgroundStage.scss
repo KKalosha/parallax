@@ -6,7 +6,6 @@
   overflow: hidden;
 }
 
-
 .bgstage__layer {
   position: absolute;
   inset: -25%;
@@ -18,12 +17,11 @@
   mix-blend-mode: var(--bg-blend-mid, screen);
 }
 
-
 .bgstage__blob {
   --blob-size: 56vmin;
-  --blob-half: calc(var(--blob-size) / 2);
-  --blob-shine: 0.6;  
-  --blob-glow:  0.55;  
+  --blob-shine: 0.6;
+  --blob-glow: 0.55;
+
   position: absolute;
   width: var(--blob-size);
   height: var(--blob-size);
@@ -53,7 +51,6 @@
     transform: rotate(0.001deg);
   }
 
-
   &::after {
     background:
       radial-gradient(80% 80% at 50% 50%, rgba(255 255 255 / 0.18), rgba(255 255 255 / 0) 60%),
@@ -63,7 +60,6 @@
     opacity: var(--blob-glow);
   }
 }
-
 
 .bgstage__grain {
   position: absolute;
@@ -78,6 +74,7 @@
   background-position: 0 0, 1px 1px;
 }
 
+
 :root {
   --blob-shine: 0.55;
   --blob-glow: 0.5;
@@ -87,6 +84,11 @@
   --blob-glow: 0.6;
 }
 
+
+@media (prefers-reduced-motion: reduce) {
+  .bgstage__layer--mid { mix-blend-mode: normal; }
+  .bgstage__blob { filter: blur(18px); }
+}
 
 @media (max-width: 768px) {
   .bgstage__layer { inset: -30%; }
