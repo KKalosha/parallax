@@ -11,10 +11,10 @@ export default function Hero() {
       >
         <h1>Motion Playground</h1>
       </GradientText>
-      <p>
+      <p className="large">
         <GravityText
-          text="Made with love — just to play, explore and create."
-          maxWords={12}
+          text="Made with motion — and a bit of love"
+          maxWords={8}
           threshold={70}
           once
         />
