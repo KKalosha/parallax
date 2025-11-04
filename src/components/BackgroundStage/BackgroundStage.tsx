@@ -4,6 +4,9 @@ import {
   useTransform,
   useReducedMotion,
   useMotionTemplate,
+  useAnimationFrame,
+  useMotionValue,
+  type MotionValue,
 } from "framer-motion";
 import "./BackgroundStage.scss";
 
@@ -17,8 +20,8 @@ const scenes = [
     accent1: getVar("--scene-1-accent1"),
     accent2: getVar("--scene-1-accent2"),
     grain: 0.18,
-    blobA: { x: "10%",  y: "20%",  scale: 1.2 },
-    blobB: { x: "70%",  y: "70%",  scale: 1.3 },
+    blobA: { x: "10%", y: "20%", scale: 1.2 },
+    blobB: { x: "70%", y: "70%", scale: 1.3 },
   },
   {
     bg1: getVar("--scene-2-bg1"),
@@ -26,8 +29,8 @@ const scenes = [
     accent1: getVar("--scene-2-accent1"),
     accent2: getVar("--scene-2-accent2"),
     grain: 0.22,
-    blobA: { x: "20%",  y: "40%",  scale: 1.4 },
-    blobB: { x: "65%",  y: "65%",  scale: 1.2 },
+    blobA: { x: "20%", y: "40%", scale: 1.4 },
+    blobB: { x: "65%", y: "65%", scale: 1.2 },
   },
   {
     bg1: getVar("--scene-3-bg1"),
@@ -35,8 +38,8 @@ const scenes = [
     accent1: getVar("--scene-3-accent1"),
     accent2: getVar("--scene-3-accent2"),
     grain: 0.20,
-    blobA: { x: "30%",  y: "60%",  scale: 1.3 },
-    blobB: { x: "60%",  y: "35%",  scale: 1.5 },
+    blobA: { x: "30%", y: "60%", scale: 1.3 },
+    blobB: { x: "60%", y: "35%", scale: 1.5 },
   },
   {
     bg1: getVar("--scene-4-bg1"),
@@ -44,8 +47,8 @@ const scenes = [
     accent1: getVar("--scene-4-accent1"),
     accent2: getVar("--scene-4-accent2"),
     grain: 0.16,
-    blobA: { x: "15%",  y: "70%",  scale: 1.5 },
-    blobB: { x: "75%",  y: "25%",  scale: 1.4 },
+    blobA: { x: "15%", y: "70%", scale: 1.5 },
+    blobB: { x: "75%", y: "25%", scale: 1.4 },
   },
 ];
 
@@ -77,6 +80,50 @@ export default function BackgroundStage() {
   const blobB_X     = useTransform(scrollYProgress, range, scenes.map(s => s.blobB.x));
   const blobB_Y     = useTransform(scrollYProgress, range, scenes.map(s => s.blobB.y));
   const blobB_Scale = useTransform(scrollYProgress, range, scenes.map(s => s.blobB.scale));
+
+
+  const aBreathX = useMotionValue(0);
+  const aBreathY = useMotionValue(0);
+  const aPulse   = useMotionValue(1);
+
+  const bBreathX = useMotionValue(0);
+  const bBreathY = useMotionValue(0);
+  const bPulse   = useMotionValue(1);
+
+  useAnimationFrame((t) => {
+
+    if (prefersReduced) {
+      aBreathX.set(0); aBreathY.set(0); aPulse.set(1);
+      bBreathX.set(0); bBreathY.set(0); bPulse.set(1);
+      return;
+    }
+
+    const e = t / 1000;
+    const TAU = Math.PI * 2;
+
+    aBreathX.set(20 * Math.sin((e / 11.5) * TAU));  
+    aBreathY.set(16 * Math.cos((e / 12.5) * TAU));  
+    aPulse.set(1 + 0.12 * Math.sin((e / 11.5) * TAU)); 
+
+  
+    bBreathX.set(22 * Math.cos((e / 12.5) * TAU + 0.7));
+    bBreathY.set(18 * Math.sin((e / 10.5) * TAU + 1.1)); 
+    bPulse.set(1 + 0.10 * Math.cos((e / 12.5) * TAU + 0.3)); 
+  });
+
+  
+  const blobA_Scale_Final = useTransform<[number, number], number>(
+    [blobA_Scale as MotionValue<number>, aPulse],
+    ([base, pulse]) => Number(base) * Number(pulse)
+  );
+  const blobB_Scale_Final = useTransform<[number, number], number>(
+    [blobB_Scale as MotionValue<number>, bPulse],
+    ([base, pulse]) => Number(base) * Number(pulse)
+  );
+
+
+  const aOpacity = useTransform(aPulse, [0.88, 1, 1.12], [0.25, 0.35, 0.45]);
+  const bOpacity = useTransform(bPulse, [0.90, 1, 1.10], [0.22, 0.33, 0.42]);
 
   const backGradient = useMotionTemplate`
     radial-gradient(
@@ -111,7 +158,10 @@ export default function BackgroundStage() {
             background: a1,
             left: blobA_X,
             top: blobA_Y,
-            scale: prefersReduced ? 1 : blobA_Scale,
+            x: aBreathX,
+            y: aBreathY,
+            scale: prefersReduced ? blobA_Scale : blobA_Scale_Final,
+            opacity: prefersReduced ? 0.35 : aOpacity,
           }}
         />
         <motion.div
@@ -120,7 +170,10 @@ export default function BackgroundStage() {
             background: a2,
             left: blobB_X,
             top: blobB_Y,
-            scale: prefersReduced ? 1 : blobB_Scale,
+            x: bBreathX,
+            y: bBreathY,
+            scale: prefersReduced ? blobB_Scale : blobB_Scale_Final,
+            opacity: prefersReduced ? 0.35 : bOpacity,
           }}
         />
       </motion.div>
