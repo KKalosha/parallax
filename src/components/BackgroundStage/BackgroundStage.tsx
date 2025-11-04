@@ -1,5 +1,5 @@
 import {
-  motion,
+  m,
   useScroll,
   useTransform,
   useReducedMotion,
@@ -214,16 +214,16 @@ export default function BackgroundStage() {
 
   return (
     <div className="bgstage" aria-hidden="true">
-      <motion.div
+      <m.div
         className="bgstage__layer bgstage__layer--back"
         style={{ y: hasScroll ? yBack : 0, background: backGradient }}
       />
 
-      <motion.div
+      <m.div
         className="bgstage__layer bgstage__layer--mid"
         style={{ y: hasScroll ? yMid : 0 }}
       >
-        <motion.div
+        <m.div
           className="bgstage__blob"
           style={{
             background: a1,
@@ -235,7 +235,7 @@ export default function BackgroundStage() {
             opacity: prefersReduced ? 0.35 : aOpacity,
           }}
         />
-        <motion.div
+        <m.div
           className="bgstage__blob"
           style={{
             background: a2,
@@ -247,14 +247,14 @@ export default function BackgroundStage() {
             opacity: prefersReduced ? 0.35 : bOpacity,
           }}
         />
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="bgstage__layer bgstage__layer--front"
         style={{ y: hasScroll ? yFront : 0, background: frontGradient }}
       />
 
-      <motion.div className="bgstage__grain" style={{ opacity: grain }} />
+      <m.div className="bgstage__grain" style={{ opacity: grain }} />
     </div>
   );
 }

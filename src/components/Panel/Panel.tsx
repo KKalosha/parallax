@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import "./Panel.scss";
 
 type PanelProps = {
@@ -10,7 +10,7 @@ type PanelProps = {
 const Panel: React.FC<PanelProps> = ({ id, scene = 1, children }) => {
   return (
     <section id={id} className="panel" data-scene={scene}>
-      <motion.div
+      <m.div
         className="panel__inner"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -18,7 +18,7 @@ const Panel: React.FC<PanelProps> = ({ id, scene = 1, children }) => {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
-      </motion.div>
+      </m.div>
     </section>
   );
 };
