@@ -1,5 +1,6 @@
 import GradientText from "@/components/GradientText/GradientText";
 import { GravityText } from "@/components/GravityText/GravityText";
+import PulsingText from "@/components/PulsingText/PulsingText";
 import "@/components/Hero/Hero.scss";
 export default function Hero() {
   return (
@@ -11,14 +12,15 @@ export default function Hero() {
       >
         <h1>Motion Playground</h1>
       </GradientText>
-      <p className="large">
-        <GravityText
-          text="Made with motion — and a bit of love"
-          maxWords={8}
-          threshold={30}
-          once
-        />
-      </p>
+
+      <PulsingText
+        text="Made with motion — and a bit of love"
+        gradientWords={[3, 9]}
+        className="large"
+        intensity={0.07}
+        duration={4}
+        glow
+      />
     </section>
   );
 }

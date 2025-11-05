@@ -30,14 +30,14 @@ function seededRandom(seedBase: number) {
   };
 }
 
-const HOLD_BEFORE_DROP = 0.25;            
-const GLOBAL_DELAY_JITTER: Range = [0, 0.08];
-const PRE_DUR: Range = [0.3, 0.45];         
-const FALL_DUR: Range = [2.2, 3.3];         
-const DRIFT_X: Range = [-200, 200];   
-const DRIFT_Y: Range = [1.1, 1.7];        
-const ROTATE: Range = [-40, 40];        
-const ARC_UP: Range = [8, 20];            
+const HOLD_BEFORE_DROP = 0.42;                 
+const GLOBAL_DELAY_JITTER: Range = [0, 0.03];  
+const PRE_DUR: Range = [0.5, 0.7];            
+const FALL_DUR: Range = [2.8, 3.8];         
+const DRIFT_X: Range = [-80, 80];            
+const DRIFT_Y: Range = [1.05, 1.35];           
+const ROTATE: Range = [-12, 12];               
+const ARC_UP: Range = [6, 10];                 
 
 const rBetween = (rand: (min?: number, max?: number) => number, range: Range) =>
   rand(range[0], range[1]);
@@ -116,28 +116,31 @@ export function GravityText<T extends ElementType = "p">({
       {pieces.map((piece, i) => {
         const rand = seededRandom(i + piece.text.length);
 
- 
         const side = i < centerIndex ? -1 : 1;
         const delay = HOLD_BEFORE_DROP + rBetween(rand, GLOBAL_DELAY_JITTER);
-        const driftX = side * rBetween(rand, DRIFT_X); 
+
+        const driftX = side * rBetween(rand, DRIFT_X);
         const fallY = viewportH * rBetween(rand, DRIFT_Y);
         const rotateFinal = side * rBetween(rand, ROTATE);
+
         const preDur = rBetween(rand, PRE_DUR);
         const fallDuration = rBetween(rand, FALL_DUR);
         const totalDuration = preDur + fallDuration;
 
-        const preX = side * rand(5, 20);
+        const preX = side * rand(4, 10);
         const preY = -rBetween(rand, ARC_UP);
-        const preR = rand(-10, 10);
+        const preR = rand(-4, 4);
 
-        const times = [0, preDur / totalDuration, 1];
-        const ease = EASES[1];
+       
+        const midT = (preDur + 0.35 * fallDuration) / totalDuration;
+        const times = [0, preDur / totalDuration, midT, 1]; 
+        const ease = EASES[1]; 
 
         const keyframes = {
-          x: triggered ? [0, preX, driftX] : [0],
-          y: triggered ? [0, preY, fallY] : [0],
-          rotate: triggered ? [0, preR, rotateFinal] : [0],
-          opacity: triggered ? [1, 0.95, 0.85] : [1],
+          x: triggered ? [0, preX, driftX * 0.35, driftX] : [0],
+          y: triggered ? [0, preY, fallY * 0.35, fallY] : [0],
+          rotate: triggered ? [0, preR, rotateFinal * 0.5, rotateFinal] : [0],
+          opacity: triggered ? [1, 1, 0.95, 0.9] : [1], 
         };
 
         return (
@@ -147,7 +150,7 @@ export function GravityText<T extends ElementType = "p">({
             aria-hidden="true"
             initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
             style={{
-              transformOrigin: "50% 0%",
+              transformOrigin: "50% 12%", 
               display: "inline-block",
             }}
             animate={
@@ -157,7 +160,8 @@ export function GravityText<T extends ElementType = "p">({
                     transition: {
                       delay,
                       duration: totalDuration,
-                      ease: ["easeOut", ease],
+        
+                      ease: ["easeOut", ease, ease],
                       times,
                     },
                   }
