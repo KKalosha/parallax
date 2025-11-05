@@ -4,10 +4,8 @@ import "@/components/GravityText/GravityText.scss";
 
 type GravityTextProps<T extends ElementType = "p"> = {
   text: string;
-
   as?: T;
   className?: string;
-
   maxWords?: number;
   threshold?: number;
   once?: boolean;
@@ -15,12 +13,13 @@ type GravityTextProps<T extends ElementType = "p"> = {
 } & Omit<React.ComponentPropsWithoutRef<T>, "as" | "children">;
 
 type Piece = { text: string };
+type Range = readonly [number, number];
 
-const EASES: ReadonlyArray<readonly [number, number, number, number]> = [
-  [0.16, 1, 0.3, 1],
+const EASES: [number, number, number, number][] = [
+  [0.2, 0.8, 0.2, 1],
   [0.22, 1, 0.36, 1],
-  [0.25, 0.8, 0.2, 1],
-] as const;
+  [0.16, 1, 0.3, 1],
+];
 
 function seededRandom(seedBase: number) {
   let seed = (seedBase * 9301 + 49297) % 233280;
@@ -30,6 +29,18 @@ function seededRandom(seedBase: number) {
     return min + r * (max - min);
   };
 }
+
+const HOLD_BEFORE_DROP = 0.25;            
+const GLOBAL_DELAY_JITTER: Range = [0, 0.08];
+const PRE_DUR: Range = [0.3, 0.45];         
+const FALL_DUR: Range = [2.2, 3.3];         
+const DRIFT_X: Range = [-200, 200];   
+const DRIFT_Y: Range = [1.1, 1.7];        
+const ROTATE: Range = [-40, 40];        
+const ARC_UP: Range = [8, 20];            
+
+const rBetween = (rand: (min?: number, max?: number) => number, range: Range) =>
+  rand(range[0], range[1]);
 
 export function GravityText<T extends ElementType = "p">({
   text,
@@ -42,10 +53,8 @@ export function GravityText<T extends ElementType = "p">({
   ...rest
 }: GravityTextProps<T>) {
   const Tag = (as || "p") as ElementType;
-
   const prefersReduced = useReducedMotion();
   const [triggered, setTriggered] = useState(false);
-const [done, setDone] = useState(false);   
 
   const completed = useRef<Set<number>>(new Set());
   const totalPiecesRef = useRef(0);
@@ -64,10 +73,7 @@ const [done, setDone] = useState(false);
     const compact: Piece[] = [];
     for (let i = 0; i < rawTokens.length; i += step) {
       compact.push({
-        text: rawTokens
-          .slice(i, i + step)
-          .map((p) => p.text)
-          .join(" "),
+        text: rawTokens.slice(i, i + step).map((p) => p.text).join(" "),
       });
     }
     return compact;
@@ -91,53 +97,48 @@ const [done, setDone] = useState(false);
     if (completed.current.has(idx)) return;
     completed.current.add(idx);
     if (completed.current.size >= totalPiecesRef.current) {
-    setDone(true); 
       onComplete?.();
     }
   };
 
   if (prefersReduced) {
     return (
-      <Tag
-        className={["gt-container", className].filter(Boolean).join(" ")}
-        {...rest}
-      >
+      <Tag className={["gt-container", className].filter(Boolean).join(" ")} {...rest}>
         {text}
       </Tag>
     );
   }
 
-
+  const centerIndex = Math.floor(pieces.length / 2);
 
   return (
-    <Tag
-      className={["gt-container", className].filter(Boolean).join(" ")}
-      {...rest}
-    >
+    <Tag className={["gt-container", className].filter(Boolean).join(" ")} {...rest}>
       {pieces.map((piece, i) => {
         const rand = seededRandom(i + piece.text.length);
 
-        const cascadeDelay = 0.06 * i + rand(0, 0.24);
-        const driftX = rand(-80, 80);
-        const fallY = viewportH * rand(1.15, 1.5);
-        const rotateFinal = rand(-28, 28);
-        const fallDuration = rand(0.9, 1.25);
-        const ease = EASES[Math.floor(rand(0, EASES.length))];
-
-        const preDur = 0.12;
-        const preX = rand(-6, 6);
-        const preY = rand(-4, 4);
-        const preR = rand(-3, 3);
-
+ 
+        const side = i < centerIndex ? -1 : 1;
+        const delay = HOLD_BEFORE_DROP + rBetween(rand, GLOBAL_DELAY_JITTER);
+        const driftX = side * rBetween(rand, DRIFT_X); 
+        const fallY = viewportH * rBetween(rand, DRIFT_Y);
+        const rotateFinal = side * rBetween(rand, ROTATE);
+        const preDur = rBetween(rand, PRE_DUR);
+        const fallDuration = rBetween(rand, FALL_DUR);
         const totalDuration = preDur + fallDuration;
+
+        const preX = side * rand(5, 20);
+        const preY = -rBetween(rand, ARC_UP);
+        const preR = rand(-10, 10);
+
         const times = [0, preDur / totalDuration, 1];
+        const ease = EASES[1];
 
         const keyframes = {
-          x: triggered ? [0, preX, driftX] : 0,
-          y: triggered ? [0, preY, fallY] : 0,
-          rotate: triggered ? [0, preR, rotateFinal] : 0,
-          opacity: triggered ? [1, 1, 0] : 1,
-        } as const;
+          x: triggered ? [0, preX, driftX] : [0],
+          y: triggered ? [0, preY, fallY] : [0],
+          rotate: triggered ? [0, preR, rotateFinal] : [0],
+          opacity: triggered ? [1, 0.95, 0.85] : [1],
+        };
 
         return (
           <m.span
@@ -145,14 +146,18 @@ const [done, setDone] = useState(false);
             className="gt-word"
             aria-hidden="true"
             initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+            style={{
+              transformOrigin: "50% 0%",
+              display: "inline-block",
+            }}
             animate={
               triggered
                 ? {
                     ...keyframes,
                     transition: {
-                      delay: 0.02 + cascadeDelay,
+                      delay,
                       duration: totalDuration,
-                      ease,
+                      ease: ["easeOut", ease],
                       times,
                     },
                   }
