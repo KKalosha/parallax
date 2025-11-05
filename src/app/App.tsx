@@ -6,7 +6,7 @@ import Hero from "@/components/Hero/Hero";
 import { lazy } from "react";
 import Deferred from "@/components/Deferred/Deferred";
 
-
+import PanelTransition from "@/components/PanelTransition/PanelTransition";
 const LazyHero = lazy(() => import("@/components/Hero/Hero"));
 
 export default function App() {
@@ -15,9 +15,12 @@ export default function App() {
       <BackgroundStage />
       <Header />
 
-      <Panel id="intro" scene={1}>
-        <Hero />
-      </Panel>
+      <PanelTransition
+        id="intro-to-projects"
+        slot1={<Hero />}
+        slot2={<div style={{width:'200px', height:'400px', background:'red'}}>hello</div>}
+        heightVh={210}
+      />
 
       <Panel id="projects-1" scene={2}>
         <Deferred>
