@@ -1,0 +1,19 @@
+.energyorb-wrap {
+  display: grid;
+  place-items: center;
+  user-select: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0 auto;
+    background: transparent;
+}
+
+.energyorb-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 999px;
+  filter: drop-shadow(0 36px 80px rgba(6, 18, 40, 0.06));
+  background: transparent !important;
+}
+

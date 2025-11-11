@@ -7,7 +7,9 @@ import { lazy } from "react";
 import Deferred from "@/components/Deferred/Deferred";
 
 import PanelTransition from "@/components/PanelTransition/PanelTransition";
+
 const LazyHero = lazy(() => import("@/components/Hero/Hero"));
+const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
 
 export default function App() {
   return (
@@ -18,7 +20,7 @@ export default function App() {
       <PanelTransition
         id="intro-to-projects"
         slot1={<Hero />}
-        slot2={<div style={{width:'200px', height:'400px', background:'red'}}>hello</div>}
+        slot2={<EnergyOrb size={420} />}
         heightVh={210}
       />
 
