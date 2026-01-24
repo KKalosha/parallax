@@ -8,6 +8,10 @@ import Deferred from "@/components/Deferred/Deferred";
 
 import PanelTransition from "@/components/PanelTransition/PanelTransition";
 
+import { ScrollCarousel } from "@/components/ScrollCarousel/ScrollCarousel";
+
+import {FeatureBlock }from '@/components/FeatureBlock/FeatureBlock'
+
 const LazyHero = lazy(() => import("@/components/Hero/Hero"));
 const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
 
@@ -20,13 +24,13 @@ export default function App() {
       <PanelTransition
         id="intro-to-projects"
         slot1={<Hero />}
-        slot2={<EnergyOrb size={420} />}
+        slot2={<FeatureBlock />}
         heightVh={210}
       />
-
+  
       <Panel id="projects-1" scene={2}>
         <Deferred>
-          <LazyHero />
+          <EnergyOrb size={420} />
         </Deferred>
       </Panel>
 

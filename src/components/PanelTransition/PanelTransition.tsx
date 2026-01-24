@@ -26,7 +26,7 @@ export default function PanelTransition({
   });
 
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.85]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.2]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.05]);
   
 const slot2Opacity = useTransform(scrollYProgress, [0.15, 0.6], [0, 1]);
 const slot2Y = useTransform(scrollYProgress, [0.15, 0.6], [100, 0]);
