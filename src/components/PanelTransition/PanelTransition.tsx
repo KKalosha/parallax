@@ -35,7 +35,7 @@ const slot2Y = useTransform(scrollYProgress, [0.15, 0.6], [100, 0]);
   const rm = prefersReduced;
 
   return (
-    <section
+    <main
       id={id}
       ref={sectionRef}
       data-scene={dataScene}
@@ -73,6 +73,6 @@ const slot2Y = useTransform(scrollYProgress, [0.15, 0.6], [100, 0]);
           {slot2}
         </m.div>
       </div>
-    </section>
+    </main>
   );
 }

@@ -23,15 +23,11 @@ button {
   color: inherit;
 }
 
-.container {
+section {
+  padding: 72px 24px;
   max-width: 1500px;
   margin: 0 auto;
-  padding: 0 24px;
 }
-.section {
-  padding: 72px 0;
-}
-
 
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -54,18 +50,13 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .section {
-    padding: 56px 0;
+  section {
+    padding: 56px 16px;
   }
-  .container {
-    padding: 0 16px;
-  }
- 
 }
 
 @media (max-width: 767px) {
-  .section {
-    padding: 40px 0;
+  section {
+    padding: 40px 16px;
   }
-
 }

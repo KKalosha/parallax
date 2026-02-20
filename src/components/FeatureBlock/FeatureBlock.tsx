@@ -3,8 +3,9 @@ import {
   Variants,
   useReducedMotion,
   useScroll,
+  useMotionValueEvent,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import "./FeatureBlock.scss";
 
@@ -15,7 +16,7 @@ type Tile = {
   label: string;
   direction: Direction;
   color: string;
-  position: CSSProperties; 
+  position: CSSProperties;
 };
 
 const TILES: Tile[] = [
@@ -63,31 +64,25 @@ const TILES: Tile[] = [
   },
 ];
 
-
-const cloudVariants: Variants = {
+const cloudVariants = {
   hidden: (rm: boolean) => ({
-    opacity: rm ? 0 : 1,
-    transition: rm
-      ? { duration: 0 }
-      : {
-          staggerChildren: 0.12,
-          staggerDirection: -1, 
-        },
+    opacity: rm ? 1 : 0,
   }),
   visible: (rm: boolean) => ({
     opacity: 1,
     transition: rm
-      ? { duration: 0.3 }
+      ? { duration: 0 }
       : {
-          delayChildren: 0.05,
-          staggerChildren: 0.12, 
+          duration: 0.35,
+          ease: [0.16, 1, 0.3, 1],
+          delayChildren: 0.03,
+          staggerChildren: 0.08,
           staggerDirection: 1,
         },
   }),
-};
+} satisfies Variants;
 
-
-const tileVariants: Variants = {
+const tileVariants = {
   hidden: (direction: Direction) => {
     const d = 60;
     switch (direction) {
@@ -108,13 +103,13 @@ const tileVariants: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.55,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1],
     },
   },
-};
+} satisfies Variants;
 
-export const FeatureBlock = () => {
+const FeatureBlock = () => {
   const prefersReducedMotion = useReducedMotion();
   const cloudRef = useRef<HTMLDivElement | null>(null);
 
@@ -122,36 +117,25 @@ export const FeatureBlock = () => {
 
   const { scrollYProgress } = useScroll({
     target: cloudRef,
-
-    offset: ["start 90%", "start 10%"],
+    offset: ["start 85%", "start 15%"],
   });
 
-  useEffect(() => {
-    const ENTER_T = 0.3;
-    const EXIT_T = 0.22;  
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    const ENTER_T = 0.6;
+    const EXIT_T = 0.5;
 
-    const unsubscribe = scrollYProgress.on("change", (value) => {
-      setIsActive((prev) => {
-      
-        if (!prev && value > ENTER_T) {
-          return true;
-        }
-
-        
-        if (prev && value < EXIT_T) {
-          return false;
-        }
-
-   
-        return prev;
-      });
+    setIsActive((prev) => {
+      if (!prev && value > ENTER_T) return true;
+      if (prev && value < EXIT_T) return false;
+      return prev;
     });
-
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+  });
 
   return (
-    <section className="feature-block">
+    <section
+      className="feature-block"
+      aria-label="Key technologies and focus areas"
+    >
       <m.div
         ref={cloudRef}
         className="feature-block__cloud"
@@ -159,6 +143,8 @@ export const FeatureBlock = () => {
         animate={isActive ? "visible" : "hidden"}
         variants={cloudVariants}
         custom={prefersReducedMotion}
+        aria-hidden="true"
+        role="presentation"
       >
         {TILES.map((tile) => (
           <m.div
@@ -170,6 +156,8 @@ export const FeatureBlock = () => {
               ...tile.position,
               background: tile.color,
             }}
+            whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
           >
             <span className="feature-block__tile-label">{tile.label}</span>
           </m.div>
@@ -178,3 +166,5 @@ export const FeatureBlock = () => {
     </section>
   );
 };
+
+export default FeatureBlock;

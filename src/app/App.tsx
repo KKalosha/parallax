@@ -8,11 +8,10 @@ import Deferred from "@/components/Deferred/Deferred";
 
 import PanelTransition from "@/components/PanelTransition/PanelTransition";
 
-import { ScrollCarousel } from "@/components/ScrollCarousel/ScrollCarousel";
 
-import {FeatureBlock }from '@/components/FeatureBlock/FeatureBlock'
 
 const LazyHero = lazy(() => import("@/components/Hero/Hero"));
+const FeatureBlock = lazy(() => import("@/components/FeatureBlock/FeatureBlock"));
 const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
 
 export default function App() {

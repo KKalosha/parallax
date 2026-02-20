@@ -1,26 +1,16 @@
 .feature-block {
   position: relative;
   width: 100%;
-  padding: 4rem 1.5rem;
-
-  @media (max-width: 768px) {
-    padding: 3rem 1rem;
-  }
+  background: yellow;
+  height: 100%;
 
   &__cloud {
     position: relative;
-    max-width: 960px;
-    margin: 0 auto;
-    height: min(60vh, 520px);
-    pointer-events: none; 
+    background: pink;
 
-    @media (max-width: 768px) {
-      height: 420px;
-    }
+    height: 100%;
+    pointer-events: none;
 
-    @media (max-width: 480px) {
-      height: 360px;
-    }
   }
 
   &__tile {
