@@ -1,168 +1,127 @@
-import {
-  m,
-  Variants,
-  useReducedMotion,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
-import { useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import { m, useInView, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import type { Variants } from "framer-motion";
 import "./FeatureBlock.scss";
 
-type Direction = "left" | "right" | "top" | "bottom";
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-type Tile = {
-  id: string;
-  label: string;
-  direction: Direction;
-  color: string;
-  position: CSSProperties;
+const fromBottom: Variants = {
+  hidden: { opacity: 0, y: 70 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: EASE } },
 };
 
-const TILES: Tile[] = [
-  {
-    id: "t1",
-    label: "React",
-    direction: "left",
-    color: "linear-gradient(135deg, #ffd6a5, #ff9f1c)",
-    position: { top: "10%", left: "5%" },
-  },
-  {
-    id: "t2",
-    label: "TypeScript",
-    direction: "right",
-    color: "linear-gradient(135deg, #a5d8ff, #4361ee)",
-    position: { top: "25%", right: "8%" },
-  },
-  {
-    id: "t3",
-    label: "Motion",
-    direction: "top",
-    color: "linear-gradient(135deg, #b8f2e6, #2ec4b6)",
-    position: { top: "45%", left: "18%" },
-  },
-  {
-    id: "t4",
-    label: "Architecture",
-    direction: "bottom",
-    color: "linear-gradient(135deg, #ffafcc, #e5383b)",
-    position: { bottom: "12%", left: "8%" },
-  },
-  {
-    id: "t5",
-    label: "Theming",
-    direction: "left",
-    color: "linear-gradient(135deg, #e0c3fc, #8e9aaf)",
-    position: { bottom: "20%", right: "22%" },
-  },
-  {
-    id: "t6",
-    label: "Performance",
-    direction: "right",
-    color: "linear-gradient(135deg, #f8f9fa, #dee2ff)",
-    position: { top: "12%", right: "32%" },
-  },
-];
+const fromRight: Variants = {
+  hidden: { opacity: 0, x: 160 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: EASE } },
+};
 
-const cloudVariants = {
-  hidden: (rm: boolean) => ({
-    opacity: rm ? 1 : 0,
-  }),
-  visible: (rm: boolean) => ({
-    opacity: 1,
-    transition: rm
-      ? { duration: 0 }
-      : {
-          duration: 0.35,
-          ease: [0.16, 1, 0.3, 1],
-          delayChildren: 0.03,
-          staggerChildren: 0.08,
-          staggerDirection: 1,
-        },
-  }),
-} satisfies Variants;
+const fromLeft: Variants = {
+  hidden: { opacity: 0, x: -160 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: EASE } },
+};
 
-const tileVariants = {
-  hidden: (direction: Direction) => {
-    const d = 60;
-    switch (direction) {
-      case "left":
-        return { opacity: 0, x: -d, y: 0, scale: 0.95 };
-      case "right":
-        return { opacity: 0, x: d, y: 0, scale: 0.95 };
-      case "top":
-        return { opacity: 0, x: 0, y: -d, scale: 0.95 };
-      case "bottom":
-      default:
-        return { opacity: 0, x: 0, y: d, scale: 0.95 };
-    }
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-} satisfies Variants;
+const IN_VIEW_OPTIONS = { once: true, margin: "0px 0px -220px 0px" } as const;
+
+function useReveal() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(ref, IN_VIEW_OPTIONS);
+  return { ref, animate: isInView ? "visible" : "hidden" } as const;
+}
 
 const FeatureBlock = () => {
   const prefersReducedMotion = useReducedMotion();
-  const cloudRef = useRef<HTMLDivElement | null>(null);
 
-  const [isActive, setIsActive] = useState(false);
+  const title     = useReveal();
+  const rowFirst  = useReveal();
+  const rowSecond = useReveal();
+  const wide      = useReveal();
+  const highlight = useReveal();
 
-  const { scrollYProgress } = useScroll({
-    target: cloudRef,
-    offset: ["start 85%", "start 15%"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    const ENTER_T = 0.6;
-    const EXIT_T = 0.5;
-
-    setIsActive((prev) => {
-      if (!prev && value > ENTER_T) return true;
-      if (prev && value < EXIT_T) return false;
-      return prev;
-    });
-  });
+  const v = (variants: Variants) =>
+    prefersReducedMotion ? undefined : variants;
 
   return (
     <section
       className="feature-block"
       aria-label="Key technologies and focus areas"
     >
-      <m.div
-        ref={cloudRef}
-        className="feature-block__cloud"
-        initial="hidden"
-        animate={isActive ? "visible" : "hidden"}
-        variants={cloudVariants}
-        custom={prefersReducedMotion}
-        aria-hidden="true"
-        role="presentation"
-      >
-        {TILES.map((tile) => (
-          <m.div
-            key={tile.id}
-            className="feature-block__tile"
-            variants={prefersReducedMotion ? undefined : tileVariants}
-            custom={tile.direction}
-            style={{
-              ...tile.position,
-              background: tile.color,
-            }}
-            whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-            whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-          >
-            <span className="feature-block__tile-label">{tile.label}</span>
-          </m.div>
-        ))}
-      </m.div>
+      <div className="feature-block__container">
+
+        <m.h2
+          ref={title.ref}
+          className="feature-block__title"
+          variants={v(fromBottom)}
+          initial="hidden"
+          animate={title.animate}
+        >
+          Built with motion in mind
+        </m.h2>
+
+        <m.div
+          ref={rowFirst.ref}
+          className="feature-block__row"
+          variants={v(fromRight)}
+          initial="hidden"
+          animate={rowFirst.animate}
+        >
+          <div className="feature-block__visual">
+            <div className="mock-svg" />
+          </div>
+          <div className="feature-block__text">
+            <h3>React & TypeScript</h3>
+            <p>
+              Structured component architecture with strict typing, clean
+              separation of concerns, and scalable design patterns.
+            </p>
+          </div>
+        </m.div>
+
+        <m.div
+          ref={rowSecond.ref}
+          className="feature-block__row feature-block__row--reverse"
+          variants={v(fromLeft)}
+          initial="hidden"
+          animate={rowSecond.animate}
+        >
+          <div className="feature-block__text">
+            <h3>Framer Motion</h3>
+            <p>
+              Every transition is intentional — scroll-driven reveals,
+              directional slides, and easing curves crafted for feel.
+            </p>
+          </div>
+          <div className="feature-block__visual">
+            <div className="mock-svg" />
+          </div>
+        </m.div>
+
+
+        <m.div
+          ref={wide.ref}
+          className="feature-block__wide"
+          variants={v(fromBottom)}
+          initial="hidden"
+          animate={wide.animate}
+        >
+          <h3>SCSS & CSS Variables</h3>
+          <p>
+            Theme-aware styling with design tokens, responsive layouts,
+            and consistent visual language across every component.
+          </p>
+        </m.div>
+
+
+        <m.div
+          ref={highlight.ref}
+          className="feature-block__highlight"
+          variants={v(fromBottom)}
+          initial="hidden"
+          animate={highlight.animate}
+        >
+          <p>React · TypeScript · Framer Motion · SCSS</p>
+        </m.div>
+
+      </div>
     </section>
   );
 };
