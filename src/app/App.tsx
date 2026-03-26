@@ -16,8 +16,6 @@ const FeatureBlock = lazy(
 );
 const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
 
-
-
 import { Carousel, Card } from "@/components/ScrollCarousel/ScrollCarousel";
 
 const CARDS: Card[] = [
@@ -26,7 +24,6 @@ const CARDS: Card[] = [
   { id: 3, title: "Panel Transitions", subtitle: "Scroll panels", scene: 3 },
   { id: 4, title: "Scroll Morph", subtitle: "Shape transformation", scene: 4 },
 ];
-
 
 export default function App() {
   return (
@@ -49,12 +46,14 @@ export default function App() {
 
       <Panel id="scene-3" scene={3}>
         <Deferred>
-         <Carousel cards={CARDS} />
+          <Carousel cards={CARDS} />
         </Deferred>
       </Panel>
 
       <Panel id="scene-3" scene={4}>
-        <Deferred>hi</Deferred>
+        <Deferred>
+          <EnergyOrb size={420} />
+        </Deferred>
       </Panel>
     </>
   );
