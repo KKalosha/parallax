@@ -16,6 +16,18 @@ const FeatureBlock = lazy(
 );
 const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
 
+
+
+import { Carousel, Card } from "@/components/ScrollCarousel/ScrollCarousel";
+
+const CARDS: Card[] = [
+  { id: 1, title: "Parallax Scene", subtitle: "Multi-layer motion", scene: 1 },
+  { id: 2, title: "Energy Orbs", subtitle: "Soft glowing blobs", scene: 2 },
+  { id: 3, title: "Panel Transitions", subtitle: "Scroll panels", scene: 3 },
+  { id: 4, title: "Scroll Morph", subtitle: "Shape transformation", scene: 4 },
+];
+
+
 export default function App() {
   return (
     <>
@@ -29,22 +41,20 @@ export default function App() {
         heightVh={210}
       />
 
-      <Panel id="projects-1" scene={2}>
+      <Panel id="scene-2" scene={2}>
         <Deferred>
           <MorphSection />
         </Deferred>
       </Panel>
 
-      <Panel id="projects-2" scene={3}>
+      <Panel id="scene-3" scene={3}>
         <Deferred>
-          <EnergyOrb size={420} />
+         <Carousel cards={CARDS} />
         </Deferred>
       </Panel>
 
-      <Panel id="contact" scene={4}>
-        <Deferred>
-          <LazyHero />
-        </Deferred>
+      <Panel id="scene-3" scene={4}>
+        <Deferred>hi</Deferred>
       </Panel>
     </>
   );

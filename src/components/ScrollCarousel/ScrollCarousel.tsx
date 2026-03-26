@@ -1,85 +1,69 @@
-import React, { useRef } from "react";
-import { m, useScroll, useTransform } from "framer-motion";
+import  { useState } from "react";
+import { m, AnimatePresence } from "framer-motion";
 import "./ScrollCarousel.scss";
 
-type CarouselCard = {
-  id: string;
+export type Card = {
+  id: number;
   title: string;
   subtitle: string;
-  description: string;
-  tech: string[];
+  scene: number;
 };
 
-const CARDS: CarouselCard[] = [
-  {
-    id: "parallax",
-    title: "Parallax Scene",
-    subtitle: "Multi-layer motion",
-    description:
-      "Demonstrates layered parallax background driven by scroll and pointer movement.",
-    tech: ["React", "Framer Motion", "CSS Variables"],
-  },
-  {
-    id: "orbs",
-    title: "Energy Orbs",
-    subtitle: "Soft glowing blobs",
-    description:
-      "Animated background blobs using motion values and smooth easing curves.",
-    tech: ["Framer Motion", "SCSS", "Blur effects"],
-  },
-  {
-    id: "panels",
-    title: "Panel Transitions",
-    subtitle: "Scroll-driven panels",
-    description:
-      "Animated transitions between content panels with shared motion variants.",
-    tech: ["React", "TypeScript", "Framer Motion"],
-  },
-];
+type Props = {
+  cards: Card[];
+};
 
-export const ScrollCarousel: React.FC = () => {
-  const sectionRef = useRef<HTMLElement | null>(null);
+ export const Carousel = ({ cards }: Props) => {
+  const [index, setIndex] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
- 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-200%"]);
+  const paginate = (direction: number) => {
+    setIndex((prev) => (prev + direction + cards.length) % cards.length);
+  };
 
   return (
-    <section ref={sectionRef} className="scroll-carousel">
-      <div className="scroll-carousel__sticky">
-        <div className="scroll-carousel__header">
-          <span className="scroll-carousel__eyebrow">Scene 02</span>
-          <h2 className="scroll-carousel__title">Interactive Motion Cards</h2>
-          <p className="scroll-carousel__subtitle">
-            Vertical scroll drives a horizontal card carousel.
-          </p>
-        </div>
+    <section className="carousel">
+      <div className="carousel__header">
+        <h2>Interactive Cards</h2>
+      </div>
 
-        <m.div className="scroll-carousel__track" style={{ x }}>
-          {CARDS.map((card) => (
-            <article key={card.id} className="scroll-carousel__card">
-              <header className="scroll-carousel__card-header">
-                <h3>{card.title}</h3>
-                <p>{card.subtitle}</p>
-              </header>
+      <div className="carousel__viewport">
+        <AnimatePresence mode="wait">
+          <m.div
+            key={index}
+            className="carousel__card"
+            data-scene={cards[index].scene}
+            initial={{ x: 120, opacity: 0, scale: 0.92 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            exit={{ x: -120, opacity: 0, scale: 0.92 }}
+            transition={{ type: "spring", stiffness: 260, damping: 25 }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(e, info) => {
+              if (info.offset.x < -100) paginate(1);
+              if (info.offset.x > 100) paginate(-1);
+            }}
+          >
+            <h3>{cards[index].title}</h3>
+            <p>{cards[index].subtitle}</p>
+          </m.div>
+        </AnimatePresence>
+      </div>
 
-              <p className="scroll-carousel__card-description">
-                {card.description}
-              </p>
+      {/* <div className="carousel__controls">
+        <button onClick={() => paginate(-1)}>←</button>
+        <button onClick={() => paginate(1)}>→</button>
+      </div> */}
 
-              <ul className="scroll-carousel__card-tech">
-                {card.tech.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </m.div>
+      <div className="carousel__dots">
+        {cards.map((_, i) => (
+          <span
+            key={i}
+            className={i === index ? "active" : ""}
+            onClick={() => setIndex(i)}
+          />
+        ))}
       </div>
     </section>
   );
 };
+

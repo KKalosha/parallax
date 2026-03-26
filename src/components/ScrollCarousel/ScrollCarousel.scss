@@ -1,97 +1,115 @@
-.scroll-carousel {
-  position: relative;
-  height: 220vh; 
-
+.carousel {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
 }
 
-.scroll-carousel__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.carousel__header {
+  text-align: center;
+}
+
+.carousel__viewport {
+  position: relative;
+  width: 100%;
+  max-width: 1500px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.carousel__card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  padding: 2rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 3rem;
 
-  padding: 4rem clamp(2rem, 6vw, 5rem);
+  color: var(--text-color);
+
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+
+
   overflow: hidden;
 }
 
+.carousel__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 
-.scroll-carousel__header {
-  max-width: 560px;
+  background: radial-gradient(
+    circle at 20% 20%,
+    var(--accent1),
+    transparent 60%
+  );
+
+  opacity: 0.25;
+  filter: blur(40px);
+  pointer-events: none;
 }
 
-.scroll-carousel__eyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
-
-.scroll-carousel__title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 600;
-  margin: 0.25rem 0 0.75rem;
-}
-
-.scroll-carousel__subtitle {
-  max-width: 36rem;
-  opacity: 0.8;
-}
-
-.scroll-carousel__track {
+.carousel__controls {
   display: flex;
-  gap: 2.5rem;
-  will-change: transform;
+  gap: 1rem;
 }
 
-.scroll-carousel__card {
-  flex: 0 0 80vw;
-  max-width: 480px;
-  padding: 2rem 2.25rem;
-  border-radius: 1.75rem;
-
-  background: rgba(10, 14, 25, 0.9);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-}
-
-.scroll-carousel__card-header h3 {
-  font-size: 1.4rem;
-  margin-bottom: 0.25rem;
-}
-
-.scroll-carousel__card-header p {
-  font-size: 0.9rem;
-  opacity: 0.75;
-}
-
-.scroll-carousel__card-description {
-  margin: 1.25rem 0 1.5rem;
-  opacity: 0.85;
-}
-
-.scroll-carousel__card-tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.scroll-carousel__card-tech li {
-  padding: 0.4rem 0.75rem;
+.carousel__controls button {
+  padding: 0.6rem 1rem;
   border-radius: 999px;
-  font-size: 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  opacity: 0.9;
+  border: none;
+  cursor: pointer;
+}
+
+.carousel__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel__dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-color-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel__dots span.active {
+  width: 18px;
+  border-radius: 999px;
+  background: var(--text-color);
+}
+
+.carousel__card[data-scene="1"] {
+  --bg1: var(--scene-1-bg1);
+  --bg2: var(--scene-1-bg2);
+  --accent1: var(--scene-1-accent1);
+  --accent2: var(--scene-1-accent2);
+}
+
+.carousel__card[data-scene="2"] {
+  --bg1: var(--scene-2-bg1);
+  --bg2: var(--scene-2-bg2);
+  --accent1: var(--scene-2-accent1);
+  --accent2: var(--scene-2-accent2);
+}
+
+.carousel__card[data-scene="3"] {
+  --bg1: var(--scene-3-bg1);
+  --bg2: var(--scene-3-bg2);
+  --accent1: var(--scene-3-accent1);
+  --accent2: var(--scene-3-accent2);
+}
+
+.carousel__card[data-scene="4"] {
+  --bg1: var(--scene-4-bg1);
+  --bg2: var(--scene-4-bg2);
+  --accent1: var(--scene-4-accent1);
+  --accent2: var(--scene-4-accent2);
 }
