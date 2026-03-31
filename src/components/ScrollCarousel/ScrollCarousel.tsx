@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import "./ScrollCarousel.scss";
 
@@ -6,42 +6,38 @@ export type Card = {
   id: number;
   title: string;
   subtitle: string;
-  scene: number;
+    scene: number;
 };
 
 type Props = {
   cards: Card[];
 };
 
- export const Carousel = ({ cards }: Props) => {
+export const Carousel = ({ cards }: Props) => {
   const [index, setIndex] = useState(0);
 
-  const paginate = (direction: number) => {
-    setIndex((prev) => (prev + direction + cards.length) % cards.length);
+  const next = () => {
+    setIndex((prev) => (prev + 1) % cards.length);
+  };
+
+  const prev = () => {
+    setIndex((prev) => (prev - 1 + cards.length) % cards.length);
   };
 
   return (
     <section className="carousel">
-      <div className="carousel__header">
-        <h2>Interactive Cards</h2>
-      </div>
+      <h2>Interactive Cards</h2>
 
       <div className="carousel__viewport">
         <AnimatePresence mode="wait">
           <m.div
-            key={index}
+            key={cards[index].id}
             className="carousel__card"
-            data-scene={cards[index].scene}
-            initial={{ x: 120, opacity: 0, scale: 0.92 }}
-            animate={{ x: 0, opacity: 1, scale: 1 }}
-            exit={{ x: -120, opacity: 0, scale: 0.92 }}
-            transition={{ type: "spring", stiffness: 260, damping: 25 }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            onDragEnd={(e, info) => {
-              if (info.offset.x < -100) paginate(1);
-              if (info.offset.x > 100) paginate(-1);
-            }}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+              data-scene={cards[index].scene}
           >
             <h3>{cards[index].title}</h3>
             <p>{cards[index].subtitle}</p>
@@ -49,10 +45,10 @@ type Props = {
         </AnimatePresence>
       </div>
 
-      {/* <div className="carousel__controls">
-        <button onClick={() => paginate(-1)}>←</button>
-        <button onClick={() => paginate(1)}>→</button>
-      </div> */}
+      <div className="carousel__controls">
+        <button onClick={prev}>←</button>
+        <button onClick={next}>→</button>
+      </div>
 
       <div className="carousel__dots">
         {cards.map((_, i) => (
@@ -66,4 +62,3 @@ type Props = {
     </section>
   );
 };
-
