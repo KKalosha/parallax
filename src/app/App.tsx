@@ -2,19 +2,17 @@ import Header from "@/components/Header/Header";
 import "@/styles/index.scss";
 import BackgroundStage from "@/components/BackgroundStage/BackgroundStage";
 import Panel from "@/components/Panel/Panel";
-// import Hero from "@/components/Hero/Hero";
 import { lazy } from "react";
 import Deferred from "@/components/Deferred/Deferred";
-
 import PanelTransition from "@/components/PanelTransition/PanelTransition";
 
-import MorphSection from "@/components/MorphSection/MorphSection";
 
 const LazyHero = lazy(() => import("@/components/Hero/Hero"));
 const FeatureBlock = lazy(
   () => import("@/components/FeatureBlock/FeatureBlock"),
 );
 const EnergyOrb = lazy(() => import("@/components/EnergyOrb/EnergyOrb"));
+const MorphSection = lazy(() => import("@/components/MorphSection/MorphSection"));
 
 import { Carousel, Card } from "@/components/ScrollCarousel/ScrollCarousel";
 
@@ -50,7 +48,7 @@ export default function App() {
         </Deferred>
       </Panel>
 
-      <Panel id="scene-3" scene={4}>
+      <Panel id="scene-4" scene={4}>
         <Deferred>
           <EnergyOrb size={420} />
         </Deferred>
