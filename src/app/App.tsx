@@ -2,7 +2,7 @@ import Header from "@/components/Header/Header";
 import "@/styles/index.scss";
 import BackgroundStage from "@/components/BackgroundStage/BackgroundStage";
 import Panel from "@/components/Panel/Panel";
-import Hero from "@/components/Hero/Hero";
+// import Hero from "@/components/Hero/Hero";
 import { lazy } from "react";
 import Deferred from "@/components/Deferred/Deferred";
 
@@ -33,7 +33,7 @@ export default function App() {
 
       <PanelTransition
         id="intro-to-projects"
-        slot1={<Hero />}
+        slot1={<LazyHero />}
         slot2={<FeatureBlock />}
         heightVh={210}
       />
